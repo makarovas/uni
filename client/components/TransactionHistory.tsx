@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
-import { client } from '../lib/sanityClient'
 import { useContext } from 'react'
-import { TransactionContext } from '../context/TransactionContext'
 import Image from 'next/image'
 import ethLogo from '../assets/ethCurrency.png'
 import { FiArrowUpRight } from 'react-icons/fi'
@@ -16,24 +14,7 @@ const style = {
 }
 
 const TransactionHistory = () => {
-  const { isLoading, currentAccount } = useContext(TransactionContext)
   const [transactionHistory, setTransactionHistory] = useState<any[]>([])
-
-  useEffect(() => {
-    ;(async () => {
-      if (!isLoading && currentAccount) {
-        const query = `
-          *[_type=="users" && _id == "${currentAccount}"] {
-            "transactionList": transactions[]->{amount, toAddress, timestamp, txHash}|order(timestamp desc)[0..4]
-          }
-        `
-
-        const clientRes = await client.fetch(query)
-
-        setTransactionHistory(clientRes[0].transactionList)
-      }
-    })()
-  }, [isLoading, currentAccount])
 
   return (
     <div className={style.wrapper}>
@@ -42,7 +23,7 @@ const TransactionHistory = () => {
           transactionHistory?.map((transaction, index) => (
             <div className={style.txHistoryItem} key={index}>
               <div className={style.txDetails}>
-                <Image src={ethLogo} height={20} width={15} alt='eth' />
+                <Image src={ethLogo} height={20} width={15} alt="eth" />
                 {transaction.amount} Ξ sent to{' '}
                 <span className={style.toAddress}>
                   {transaction.toAddress.substring(0, 6)}...
@@ -60,8 +41,8 @@ const TransactionHistory = () => {
               <div className={style.etherscanLink}>
                 <a
                   href={`https://rinkeby.etherscan.io/tx/${transaction.txHash}`}
-                  target='_blank'
-                  rel='noreferrer'
+                  target="_blank"
+                  rel="noreferrer"
                   className={style.etherscanLink}
                 >
                   View on Etherscan

@@ -3,7 +3,7 @@ import { RiSettings3Fill } from 'react-icons/ri'
 import { AiOutlineDown } from 'react-icons/ai'
 import ethLogo from '../assets/eth.png'
 import { useContext } from 'react'
-import { TransactionContext } from '../context/TransactionContext'
+// import { TransactionContext } from '../context/TransactionContext'
 import Modal from 'react-modal'
 import { useRouter } from 'next/router'
 import TransactionLoader from './TransactionLoader'
@@ -41,18 +41,7 @@ const customStyles = {
 }
 
 const Main = () => {
-  const { formData, handleChange, sendTransaction } =
-    useContext(TransactionContext)
   const router = useRouter()
-
-  const handleSubmit = async (e: any) => {
-    const { addressTo, amount } = formData
-    e.preventDefault()
-
-    if (!addressTo || !amount) return
-
-    sendTransaction()
-  }
 
   return (
     <div className={style.wrapper}>
@@ -65,16 +54,15 @@ const Main = () => {
         </div>
         <div className={style.transferPropContainer}>
           <input
-            type='text'
+            type="text"
             className={style.transferPropInput}
-            placeholder='0.0'
-            pattern='^[0-9]*[.,]?[0-9]*$'
-            onChange={e => handleChange(e, 'amount')}
+            placeholder="0.0"
+            pattern="^[0-9]*[.,]?[0-9]*$"
           />
           <div className={style.currencySelector}>
             <div className={style.currencySelectorContent}>
               <div className={style.currencySelectorIcon}>
-                <Image src={ethLogo} alt='eth logo' height={20} width={20} />
+                <Image src={ethLogo} alt="eth logo" height={20} width={20} />
               </div>
               <div className={style.currencySelectorTicker}>ETH</div>
               <AiOutlineDown className={style.currencySelectorArrow} />
@@ -83,15 +71,11 @@ const Main = () => {
         </div>
         <div className={style.transferPropContainer}>
           <input
-            type='text'
+            type="text"
             className={style.transferPropInput}
-            placeholder='0x...'
-            onChange={e => handleChange(e, 'addressTo')}
+            placeholder="0x..."
           />
           <div className={style.currencySelector}></div>
-        </div>
-        <div onClick={e => handleSubmit(e)} className={style.confirmButton}>
-          Confirm
         </div>
       </div>
 
